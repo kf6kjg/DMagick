@@ -14,14 +14,11 @@ import dmagick.c.statistic;
 
 extern(C)
 {
-	MagickBooleanType AccelerateConvolveImage(const(Image)*, const(KernelInfo)*, Image*, ExceptionInfo*);
-
 	static if ( MagickLibVersion >= 0x689 )
 	{
 		MagickBooleanType AccelerateCompositeImage(Image*, const ChannelType, const CompositeOperator, const(Image)*, const ssize_t, const ssize_t, const float, const float, ExceptionInfo*);
 		MagickBooleanType AccelerateContrastStretchImageChannel(Image*, const ChannelType, const double, const double, ExceptionInfo*);
 		MagickBooleanType AccelerateGrayscaleImage(Image*, const PixelIntensityMethod, ExceptionInfo*);
-		MagickBooleanType AccelerateNegateImageChannel(Image*, const ChannelType, const MagickBooleanType, ExceptionInfo*);
 		MagickBooleanType AccelerateRandomImage(Image*, ExceptionInfo*);
 	}
 
@@ -42,10 +39,26 @@ extern(C)
 	static if ( MagickLibVersion >= 0x687 )
 	{
 		Image* AccelerateConvolveImageChannel(const(Image)*, const ChannelType, const(KernelInfo)*, ExceptionInfo*);
+		Image* AccelerateDespeckleImage(const(Image)*, ExceptionInfo*);
+		Image* AccelerateRadialBlurImage(const(Image)*, const ChannelType, const double, ExceptionInfo*);
+		//Image* AccelerateResizeImage(const(Image)*, const size_t, const size_t, const(ResizeFilter)*, ExceptionInfo*);
+		Image* AccelerateUnsharpMaskImage(const(Image)*, const ChannelType, const double, const double, const double, const double, ExceptionInfo*);
+	}
+
+	static if ( MagickLibVersion >= 0x693 )
+	{
+		Image* AccelerateLocalContrastImage(const(Image)*, const double, const double, ExceptionInfo*);
 	}
 
 	static if ( MagickLibVersion >= 0x689 )
 	{
 		Image* AccelerateMotionBlurImage(const Image*, const ChannelType, const(double)*, const size_t, const(OffsetInfo)*, ExceptionInfo*);
+	}
+
+	/* legacy, do not use */
+	MagickBooleanType AccelerateConvolveImage(const(Image)*, const(KernelInfo)*, Image*, ExceptionInfo*);
+	static if ( MagickLibVersion >= 0x689 )
+	{
+		MagickBooleanType AccelerateNegateImageChannel(Image*, const ChannelType, const MagickBooleanType, ExceptionInfo*);
 	}
 }

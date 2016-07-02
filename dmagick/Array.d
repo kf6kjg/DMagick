@@ -413,6 +413,10 @@ void quantize(Image[] images, bool measureError = false)
 	linkImages(images);
 	scope(exit) unlinkImages(images);
 
+	bool originalmeasureError = images[0].options.quantizeInfo.measure_error != 0;
+	images[0].options.quantizeInfo.measure_error = measureError;
+	scope(exit) images[0].options.quantizeInfo.measure_error = originalmeasureError;
+
 	QuantizeImages(images[0].options.quantizeInfo, images[0].imageRef);
 
 	foreach ( image; images )
@@ -615,6 +619,10 @@ void[] toBlob(Image[] images, string magick = null, size_t depth = 0, bool adjoi
 	string originalFilename = images[0].filename;
 	images[0].filename = images[0].magick ~ ":";
 	scope(exit) images[0].filename = originalFilename;
+
+	bool originalAdjoin = images[0].options.imageInfo.adjoin != 0;
+	images[0].options.imageInfo.adjoin = adjoin;
+	scope(exit) images[0].options.imageInfo.adjoin = originalAdjoin;
 
 	linkImages(images);
 	scope(exit) unlinkImages(images);

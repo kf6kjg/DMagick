@@ -1,7 +1,9 @@
 module dmagick.c.colorspace;
 
+import dmagick.c.exception;
 import dmagick.c.image;
 import dmagick.c.magickType;
+import dmagick.c.magickVersion;
 
 extern(C)
 {
@@ -195,11 +197,25 @@ extern(C)
 		HCLpColorspace,
 
 		/** */
-		YDbDrColorspace
+		YDbDrColorspace,
+
+		/**
+		 * In CIE xyY, Y is the luminance and x and y represents the chrominance
+		 * values derived from the tristimulus values X, Y and Z in the CIE XYZ
+		 * color space.
+		 */
+		xyYColorspace
 	}
 
 	MagickBooleanType RGBTransformImage(Image*, const ColorspaceType);
 	MagickBooleanType SetImageColorspace(Image*, const ColorspaceType);
+
+	static if ( MagickLibVersion >= 0x692 )
+	{
+		MagickBooleanType SetImageGray(Image*, ExceptionInfo*);
+		MagickBooleanType SetImageMonochrome(Image*, ExceptionInfo*);
+	}
+
 	MagickBooleanType TransformImageColorspace(Image*, const ColorspaceType);
 	MagickBooleanType TransformRGBImage(Image*, const ColorspaceType);
 }

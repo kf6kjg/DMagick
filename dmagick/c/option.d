@@ -132,6 +132,12 @@ extern(C)
 				            MagickIntensityOptions,";
 			}
 
+			static if ( MagickLibVersion >= 0x692 )
+			{
+				options ~= "MagickGradientOptions,
+				            MagickWeightOptions,";
+			}
+
 			options ~= "}";
 
 		return options;
@@ -232,6 +238,11 @@ extern(C)
 		MagickBooleanType ListMagickOptions(FILE*, const MagickOption, ExceptionInfo*);
 
 		ssize_t ParseMagickOption(const MagickOption, const MagickBooleanType,const(char)*);
+	}
+
+	static if ( MagickLibVersion >= 0x690 )
+	{
+		MagickBooleanType IsOptionMember(const(char)*, const(char)*);
 	}
 
 	char*  GetNextImageOption(const(ImageInfo)*);
